@@ -1,0 +1,37 @@
+{
+  "name": "ecommerce-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/toast": "^3.3.1",
+    "core-js": "^3.15.1",
+    "laravel-vue-pagination": "^2.3.1",
+    "lodash": "^4.17.21",
+    "nuxt": "^2.15.7",
+    "nuxt-dropzone": "^1.0.4",
+    "pusher-js": "^7.0.3",
+    "vue-click-outside": "^1.1.0",
+    "vue-faq-accordion": "^1.6.2",
+    "vue-infinite-loading": "^2.4.5",
+    "vue-sidebar-menu": "^4.8.1",
+    "vue-slick-carousel": "^1.0.6",
+    "vue-star-rating": "^1.7.0",
+    "vue-sweetalert2": "^5.0.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/laravel-echo": "^1.1.0",
+    "@nuxtjs/tailwindcss": "^4.2.0",
+    "postcss": "^8.3.5",
+    "pretty-checkbox-vue": "^1.1.9",
+    "sass": "^1.38.0",
+    "sass-loader": "^10.1.1"
+  }
+}
