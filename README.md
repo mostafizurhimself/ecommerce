@@ -10,40 +10,71 @@ There are two part of this application.
 
 ##### Backend
 
-To run the backend api server, you need to install the dependencies first.
+Install all the dependencies using composer
 
-```bash
-cd backend && composer install
-```
+    composer install
 
-Then copy the `.env.example` file and rename it to `.env` file.
+Copy the example env file and make the required configuration changes in the .env file
 
-```bash
-cp .env.example .env
-```
+    cp .env.example .env
 
-Now, you have to update the `.env` file with your credentials.
+Generate a new application key
 
-```bash
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=ecommerce
-DB_USERNAME=root
-DB_PASSWORD=
-```
+    php artisan key:generate
 
-Then, you need to migrate the database. For that, you can run the following command:
+Generate jwt secret key
 
-```bash
-php artisan migrate
-```
+    php artisan jwt:secret
 
-If your want to populate the database with some dummy data, you can run the following command:
+Update the database configuration from your .env file
 
-```bash
-php artisan db:seed
-```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=middlewise
+    DB_USERNAME=root
+    DB_PASSWORD=
+
+Run the database migrations & seed with some initial data (**Set the database connection in .env before migrating**)
+
+    php artisan migrate --seed
+
+Start the development Server with this command
+
+    php artisan serve
+
+Your api is now hosted at http://localhost:8000
+
+For broadcasting realtime notification you need to add broadcasting configuration on your .env file
+
+    BROADCAST_DRIVER=pusher
+
+    PUSHER_APP_ID="YOUR_APP_ID"
+    PUSHER_APP_KEY="YOUR_APP_KEY"
+    PUSHER_APP_SECRET="YOUR_APP_SECRET"
+    PUSHER_APP_CLUSTER="YOUR_APP_CLUSTER"
+
+For queuing notifications you have to change .env to:
+
+    QUEUE_CONNECTION=database
+
+Then, generate the queue table, by running this command:
+
+    php artisan queue:table
+
+Then, run the migration again:
+
+    php artisan migrate
+
+Now, listen for queues by running this command
+
+    php artisan queue:work
+
+Moving oders to delivery table, you should run this command:
+
+    php artisan move:delivered
+
+This commad will run automatically every day at `12:00 AM` (for this server corn set up is required)
 
 To create a `super-admin` user, you can run the following command:
 
@@ -51,37 +82,19 @@ To create a `super-admin` user, you can run the following command:
 php artisan generate-super-admin
 ```
 
-For the notification service, you need to update these `.env` values too.
+#### API Docs
 
-```
+- Admin:
 
-BROADCAST_DRIVER=pusher
+  https://documenter.getpostman.com/view/9967497/UVBzm94s
 
-PUSHER_APP_ID=
-PUSHER_APP_KEY=
-PUSHER_APP_SECRET=
-PUSHER_APP_CLUSTER=mt1
+- Customer:
 
-```
+  https://documenter.getpostman.com/view/9967497/UVBzm94u
 
-Run this following commands to generate the `APP_KEY` & `JWT_SECRET` key:
+- Public:
 
-```bash
-php artisan key:generate
-php artisan jwt:secret
-```
-
-Now you can run the server.
-
-```bash
-php artisan serve
-```
-
-For running the queue worker, you need to run
-
-```bash
-php artisan queue:work
-```
+  https://documenter.getpostman.com/view/9967497/UVBzm94v
 
 ##### Frontend
 
@@ -121,3 +134,22 @@ npm run start
 Now your frontend application will be running on http://localhost:3000/
 
 ![](https://raw.githubusercontent.com/MdMostaFizurRahaman/ecommerce/main/screenshot.png)
+
+##### Build Setup
+
+```bash
+# install dependencies
+$ npm install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm run start
+
+# generate static project
+$ npm run generate
+```
+
+For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
