@@ -1,0 +1,12 @@
+.pagination {
+  list-style: none;
+  @apply flex pl-0;
+}
+
+.page-item.active .page-link {
+  @apply text-white bg-primary-500 border-primary-500;
+  z-index: 3;
+}
+.page-link {
+  @apply w-10 h-10 mx-1 relative flex items-center justify-center text-primary-500 bg-white border border-white rounded-full text-sm;
+}
