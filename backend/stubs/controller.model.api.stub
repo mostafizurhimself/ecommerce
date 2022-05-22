@@ -1,0 +1,153 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use App\Facades\Response;
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Resources\ApiResource;
+use App\Http\Requests\ValidateIdsFromRequest;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Register the middlewares
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('assign.guard:users');
+        $this->middleware('jwt.auth');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request)
+    {
+        if($request->has('perPage')){
+            return ApiResource::collection({{ model }}::filter($request->all())->trashed()->sorted()->paginate($request->perPage));
+        }
+        return ApiResource::collection({{ model }}::filter($request->all())->trashed()->sorted()->get());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        ${{ modelVariable }} = {{ model }}::create($request->validated());
+        return Response::success("Created successfully", ${{ modelVariable }});
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show({{ model }} ${{ modelVariable }})
+    {
+        return new ApiResource(${{ modelVariable }});
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, {{ model }} ${{ modelVariable }})
+    {
+        ${{ modelVariable }}->update($request->validated());
+        return Response::success("Updated successfully", ${{ modelVariable }});
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        if (${{ modelVariable }}->delete()) {
+            return Response::success("Deleted successfully");
+        }
+    }
+
+     /**
+     * Delete all the specified resource from storage.
+     *
+     * @param  \App\Http\Requests\ValidateIdsFromRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteAll(ValidateIdsFromRequest $request)
+    {
+        if ({{ model }}::withTrashed()->whereIn('id', $request->ids)->delete()) {
+            return Response::success("Deleted all successfully");
+        };
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore($id)
+    {
+        ${{ modelVariable }} = {{ model }}::withTrashed()->findOrFail($id);
+        ${{ modelVariable }}->restore();
+        return new ApiResource(${{ modelVariable }});
+    }
+
+    /**
+     * Restore all the specified resource from storage.
+     *
+     * @param  \App\Http\Requests\ValidateIdsFromRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restoreAll(ValidateIdsFromRequest $request)
+    {
+        if ({{ model }}::withTrashed()->whereIn('id', $request->ids)->restore()) {
+            return Response::success("Restored all successfully");
+        };
+    }
+
+    /**
+     * Force Delete the specified resource from storage.
+     *
+     * @param  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forceDelete($id)
+    {
+        ${{ modelVariable }} = {{ model }}::withTrashed()->findOrFail($id);
+        if (${{ modelVariable }}->forceDelete()) {
+            return Response::success("Force deleted successfully");
+        };
+    }
+
+    /**
+     * Restore all the specified resource from storage.
+     *
+     * @param  \App\Http\Requests\ValidateIdsFromRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forceDeleteAll(ValidateIdsFromRequest $request)
+    {
+        if ({{ model }}::withTrashed()->whereIn('id', $request->ids)->forceDelete()) {
+            return Response::success("Force deleted all successfully");
+        };
+    }
+}
