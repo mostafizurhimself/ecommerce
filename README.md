@@ -8,7 +8,7 @@ git clone https://github.com/MdMostaFizurRahaman/ecommerce.git
 
 There are two part of this application.
 
-##### Backend
+#### Backend
 
 Install all the dependencies using composer
 
@@ -82,7 +82,7 @@ To create a `super-admin` user, you can run the following command:
 php artisan generate-super-admin
 ```
 
-#### API Docs
+##### API Docs
 
 - Admin:
 
@@ -96,7 +96,7 @@ php artisan generate-super-admin
 
   https://documenter.getpostman.com/view/9967497/UVBzm94v
 
-##### Frontend
+#### Frontend
 
 For the frontend, cd into the `frontend` directory and run the following command.
 
