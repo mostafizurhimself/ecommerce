@@ -79,7 +79,7 @@ This commad will run automatically every day at `12:00 AM` (for this server corn
 To create a `super-admin` user, you can run the following command:
 
 ```bash
-php artisan generate-super-admin
+php artisan generate:super-admin
 ```
 
 ##### API Docs
