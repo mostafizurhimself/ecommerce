@@ -31,19 +31,26 @@ Update the database configuration from your .env file
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=middlewise
+    DB_DATABASE=ecommerce_api
     DB_USERNAME=root
     DB_PASSWORD=
 
-Run the database migrations & seed with some initial data (**Set the database connection in .env before migrating**)
+Run the database migrations
+(**Set the database connection in .env before migrating**)
 
-    php artisan migrate --seed
+    php artisan migrate
 
 Start the development Server with this command
 
     php artisan serve
 
 Your api is now hosted at http://localhost:8000
+
+To get some initial data, you can run this command
+
+```bash
+php artisan db:seed
+```
 
 For broadcasting realtime notification you need to add broadcasting configuration on your .env file
 
@@ -57,14 +64,6 @@ For broadcasting realtime notification you need to add broadcasting configuratio
 For queuing notifications you have to change .env to:
 
     QUEUE_CONNECTION=database
-
-Then, generate the queue table, by running this command:
-
-    php artisan queue:table
-
-Then, run the migration again:
-
-    php artisan migrate
 
 Now, listen for queues by running this command
 
@@ -81,6 +80,14 @@ To create a `super-admin` user, you can run the following command:
 ```bash
 php artisan generate:super-admin
 ```
+
+Your admin login URL will be
+
+```
+http://localhost:3000/admin/login
+```
+
+You can access this url after completing the frontend setup.
 
 ##### API Docs
 
